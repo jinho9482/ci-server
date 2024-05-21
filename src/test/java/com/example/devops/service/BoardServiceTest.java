@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest // spring을 실행시킨다. bean에 있는 것 (service, repository 등등)을 사용하고 싶을 때 사용
 class BoardServiceTest {
     @Autowired
     private BoardService boardService;
@@ -63,15 +63,31 @@ class BoardServiceTest {
 
     @Test
     void deleteById() {
-        BoardRequest dto = new BoardRequest("Hola", "Hola");
-        boardRepository.save(dto.toEntity());
+        // 매칭되는 id가 있을 때
+        // given
+        Board board = new Board(null, "test", "test");
+        boardRepository.save(board); // entity manager 가 null 값을 채워서 다시 변환해준다.
+        Long id = board.getId();
 
-        int len1 = boardRepository.findAll().size();
-        boardService.deleteById((long) len1);
-        int len2 = boardRepository.findAll().size();
+        // when
+        boardService.deleteById(id);
 
-        assertEquals(len1-1, len2);
+        // then
+        assertEquals(0,boardRepository.findAll().size());
 
+//        BoardRequest dto = new BoardRequest("Hola", "Hola");
+//        boardRepository.save(dto.toEntity());
+//
+//        int len1 = boardRepository.findAll().size();
+//        boardService.deleteById((long) len1);
+//        int len2 = boardRepository.findAll().size();
+//
+//        assertEquals(len1-1, len2);
+    }
 
+    @Test
+    void deleteById_fail() {
+        // 매칭되는 id가 없을 때
+        assertThrows(IllegalArgumentException.class, () -> boardService.deleteById(1000L));
     }
 }

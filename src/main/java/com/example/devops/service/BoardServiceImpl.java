@@ -26,6 +26,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     public void deleteById(Long id) {
+        boardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         boardRepository.deleteById(id);
     }
 }
