@@ -30,7 +30,7 @@ jobs:
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
     - name: chmod
       run: chmod 744 gradlew # 읽기 전용 파일을 실행 파일로 변경, windows 에는 존재하지 않아서 if 처리를 해야한다.
-      if: runner.os == 'ubuntu' || runner.os == 'macos'
+      if: runner.os == 'Linux' || runner.os == 'macOS'
       
     - name: Build with Gradle Wrapper
       run: ./gradlew build
