@@ -72,5 +72,6 @@ class BoardServiceImplTest {
         boardService.insertBoard(request);
 
         Mockito.verify(boardRepository, Mockito.times(1)).save(entity);
+        System.out.println("Hello");
     }
 }
