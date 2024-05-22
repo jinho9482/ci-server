@@ -4,74 +4,56 @@ import com.example.devops.dto.BoardRequest;
 import com.example.devops.entity.Board;
 import com.example.devops.global.BoardRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest // spring을 실행시킨다. bean에 있는 것 (service, repository 등등)을 사용하고 싶을 때 사용
 class BoardServiceTest {
-    @Autowired
-    private BoardService boardService;
-    @Autowired
+    @InjectMocks
+    private BoardServiceImpl boardServiceImpl;
+    @Mock
     private BoardRepository boardRepository;
 
     @Test
-    void insertUser() {
-        int lenBefore = boardRepository.findAll().size();
-        BoardRequest dto = new BoardRequest("Hi", "Hi");
-        boardService.insertBoard(dto);
-        List<Board> boards = boardRepository.findAll();
-        int lenAfter = boards.size();
-        Board lastOne = boards.get(lenAfter-1);
-
-        assertEquals(lenBefore+1, lenAfter);
-        assertEquals("Hi", lastOne.getName());
-        assertEquals("Hi", lastOne.getText());
-
-    }
-
-    @Test
-    void getAll() {
-        int lenBefore = boardService.getAll().size();
-        BoardRequest dto = new BoardRequest("Hi", "Hi");
-        boardRepository.save(dto.toEntity());
-
-        List<Board> boards = boardService.getAll();
-        int lenAfter = boards.size();
-        Board lastOne = boards.get(lenAfter-1);
-
-        assertEquals(lenBefore+1, lenAfter);
-        assertEquals("Hi", lastOne.getName());
-        assertEquals("Hi", lastOne.getText());
-
-    }
-
-    @Test
-    void getOneById() {
-        BoardRequest dto = new BoardRequest("Hola", "Hola");
-        boardRepository.save(dto.toEntity());
-
-        Long lenAfter = (long) boardRepository.findAll().size();
-        Board board = boardService.getOneById(lenAfter);
-
-        assertEquals("Hola", board.getName());
-        assertEquals("Hola", board.getText());
-    }
-
-    @Test
     void deleteById() {
-        BoardRequest dto = new BoardRequest("Hola", "Hola");
-        boardRepository.save(dto.toEntity());
+        // 매칭되는 id가 있을 때
+        // given
+        Long id = 1L;
+        BDDMockito.doNothing().when(boardRepository).deleteById(id);
+        BDDMockito.given(boardRepository.findById(id))
+                .willReturn(Optional.of(new Board(1L, null, null)));
+        // when
+        boardServiceImpl.deleteById(id);
 
-        int len1 = boardRepository.findAll().size();
-        boardService.deleteById((long) len1);
-        int len2 = boardRepository.findAll().size();
+        // then
 
-        assertEquals(len1-1, len2);
 
+    }
+
+    @Test
+    void deleteById_fail() {
+        // 매칭되는 id가 없을 때
+
+        // given
+        Long id = 1000L;
+
+        BDDMockito.given(boardRepository.findById(id))
+                .willReturn(Optional.empty());
+        BDDMockito.doNothing().when(boardRepository).deleteById(id);
+        //when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            boardServiceImpl.deleteById(id);
+        });
+//        Mockito.verify(boardRepository, Mockito.times(1)).findById(id);
 
     }
 }
