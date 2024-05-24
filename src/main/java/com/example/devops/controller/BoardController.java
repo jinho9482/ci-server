@@ -5,6 +5,7 @@ import com.example.devops.dto.BoardRequest;
 import com.example.devops.entity.Board;
 import com.example.devops.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void insertBoard(@RequestBody BoardRequest dto) {
         boardService.insertBoard(dto);
     }
@@ -28,12 +30,12 @@ public class BoardController {
         return boardService.getAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Board getOneById(@PathVariable Long id) {
         return boardService.getOneById(id);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         boardService.deleteById(id);
     }

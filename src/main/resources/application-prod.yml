@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: auth
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth_test?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ${dbUsername} # username : 환경변수
+    password: ${dbPassword}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
