@@ -9,7 +9,7 @@ public interface BoardService {
 
     void insertBoard(BoardRequest dto);
 
-   List<Board> getAll();
+    List<Board> getAll();
 
     Board getOneById(Long id);
 
