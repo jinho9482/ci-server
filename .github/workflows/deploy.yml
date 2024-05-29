@@ -13,13 +13,13 @@ jobs:
 
     steps:      
     - uses: actions/checkout@v4
-    # ssh username@ip 를 하는 것이다.
+    # ssh username@ip를 하는 것이다.
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
         script: |
           cd ci-server
           git pull
