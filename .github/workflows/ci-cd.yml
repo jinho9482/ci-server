@@ -50,7 +50,7 @@ jobs:
           script: |
             docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_SERVER_REPO}} 
             docker rm -f ${{secrets.DOCKER_SERVER_REPO}} 
-            docker run --name ${{secrets.DOCKER_SERVER_REPO}} --network server -p 8080:8080 -e profiles=prod -e ${{ secrets.DB_USER }} -e ${{ secrets.DB_PASSWORD }} -d ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_SERVER_REPO}} 
+            docker run --name ${{secrets.DOCKER_SERVER_REPO}} --network server -p 8080:8080 -e profiles=prod -e DB_USER=${{ secrets.DB_USER }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -d ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_SERVER_REPO}} 
       
   dependency-submission:
 
