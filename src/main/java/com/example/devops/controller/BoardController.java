@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class BoardController {
     public Board getOneById(@PathVariable Long id) {
         return boardService.getOneById(id);
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
