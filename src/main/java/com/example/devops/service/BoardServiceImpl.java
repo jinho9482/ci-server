@@ -29,4 +29,11 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         boardRepository.deleteById(id);
     }
+
+    @Override
+    public List<Board> getAllByNameAndText(BoardRequest boardRequest) {
+        if (boardRequest.text() ==null || boardRequest.name()==null)
+            return boardRepository.findAllByNameOrText(boardRequest.name(), boardRequest.text());
+        return boardRepository.findAllByNameAndText(boardRequest.name(), boardRequest.text());
+    }
 }

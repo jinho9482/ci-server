@@ -14,4 +14,6 @@ public interface BoardService {
     Board getOneById(Long id);
 
     void deleteById(Long id);
+
+    List<Board> getAllByNameAndText(BoardRequest boardRequest);
 }

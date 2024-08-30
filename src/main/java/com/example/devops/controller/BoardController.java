@@ -26,10 +26,12 @@ public class BoardController {
         boardService.insertBoard(dto);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Board> getAll() {
         return boardService.getAll();
     }
+
+
 
     @GetMapping("/{id}")
     public Board getOneById(@PathVariable Long id) {
@@ -42,4 +44,9 @@ public class BoardController {
         boardService.deleteById(id);
     }
 
+
+    @GetMapping
+    public List<Board> getAllByNameAndText(BoardRequest boardRequest) {
+        return boardService.getAllByNameAndText(boardRequest);
+    }
 }

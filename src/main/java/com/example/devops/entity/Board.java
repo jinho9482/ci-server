@@ -21,4 +21,13 @@ public class Board {
 
     @Column(name = "TEXT")
     private String text;
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }
